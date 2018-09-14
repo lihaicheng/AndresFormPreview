@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.resource.hc.andresformpreview">
+    <!-- 授予该程序使用摄像头的权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-feature
+            android:name="android.hardware.camera2.full"
+            android:required="true" />
+    <!-- 读写SD卡权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <application
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme"
+    >
+        <!--
+        android:theme="@android:style/Theme.NoDisplay"-->
+        <!--android:theme="@android:style/Theme.Translucent"-->
+        <activity
+                android:name=".MainActivity"
+                android:theme="@android:style/Theme.Translucent"
+
+        >
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <!-- 开机自启动广播接受 -->
+        <receiver android:name=".AutoStartBroadcastReceiver" >
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MEDIA_UNMOUNTED"/>
+                <action android:name="android.intent.action.MEDIA_MOUNTED"/>
+                <action android:name="android.intent.action."/>
+                <!--想让上面的这2个事件生效,必须的加上这样的一个data,幸运的是需要加这个data的地方极少此处是一个-->
+                <data android:scheme="file"/>
+
+            </intent-filter>
+        </receiver>
+        <!-- 开机自启动服务-->
+        <service android:name=".AutoStartService"
+                 android:label="AutoStartService"
+                 android:enabled="true"
+                 android:exported="true"
+                 android:process=":remote">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.RESPOND_VIA_MESSAGE"  />
+
+            </intent-filter>
+        </service>
+        <!--android:theme="@android:style/Theme.NoDisplay"-->
+        <activity
+                android:name=".CameraView"
+                android:launchMode="singleTask"
+
+
+                android:theme="@android:style/Theme.Translucent"
+        >
+        </activity>
+    </application>
+
+</manifest>
